@@ -2,7 +2,7 @@
 
 set -e
 
-REPO="Vavarine/ttq-cli"   # troque pelo seu repo
+REPO="Vavarine/tiquetaque-cli"   # troque pelo seu repo
 BINARY="ttq"              # nome do binário
 VERSION="${VERSION:-latest}"
 
