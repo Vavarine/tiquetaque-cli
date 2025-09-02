@@ -16,12 +16,13 @@ case "$ARCH" in
     *) echo "Arquitetura não suportada: $ARCH"; exit 1 ;;
 esac
 
+echo https://api.github.com/repos/$REPO/releases/latest
+
 # Pega a URL da versão
 if [ "$VERSION" = "latest" ]; then
     DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$REPO/releases/latest \
-        | grep "browser_download_url" \
-        | grep "${OS}_${ARCH}" \
-        | cut -d '"' -f 4)
+      | grep "browser_download_url" \
+      | cut -d '"' -f 4)
 else
     DOWNLOAD_URL="https://github.com/$REPO/releases/download/$VERSION/${BINARY}_${OS}_${ARCH}"
 fi
