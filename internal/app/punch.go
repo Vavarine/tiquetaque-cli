@@ -1,4 +1,4 @@
-package auth
+package app
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -16,7 +17,6 @@ type PunchRequest struct {
 		Date   string `json:"date"`
 		Time   string `json:"time"`
 	} `json:"times"`
-	EmployerID string `json:"employerId"`
 }
 
 type PunchResponse struct {
@@ -24,11 +24,24 @@ type PunchResponse struct {
 	Message string `json:"message"`
 }
 
+func saveErrorToFile(data []byte) error {
+	file, err := os.OpenFile("error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return fmt.Errorf("erro ao abrir arquivo de log: %w", err)
+	}
+	defer file.Close()
+
+	if _, err := file.Write(append(data, '\n')); err != nil {
+		return fmt.Errorf("erro ao escrever no arquivo de log: %w", err)
+	}
+
+	return nil
+}
+
 // DoPunch envia um registro de ponto para a API do TiqueTaQue
-func DoPunch(ctx context.Context, token, employerID, date, timeStr string) (*PunchResponse, error) {
+func DoPunch(ctx context.Context, token, xCheck, date, timeStr string) (*PunchResponse, error) {
 	url := "https://api.tiquetaque.com/employees/day-records/add-times"
 
-	// Monta o corpo da requisição
 	body := PunchRequest{
 		Times: []struct {
 			Source string `json:"source"`
@@ -37,7 +50,6 @@ func DoPunch(ctx context.Context, token, employerID, date, timeStr string) (*Pun
 		}{
 			{Source: "web", Date: date, Time: timeStr},
 		},
-		EmployerID: employerID,
 	}
 
 	jsonBody, err := json.Marshal(body)
@@ -45,24 +57,32 @@ func DoPunch(ctx context.Context, token, employerID, date, timeStr string) (*Pun
 		return nil, fmt.Errorf("erro ao serializar corpo: %w", err)
 	}
 
-	// Cria cliente HTTP com timeout
 	client := &http.Client{Timeout: 10 * time.Second}
 
-	// Cria requisição com contexto
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewBuffer(jsonBody))
 	if err != nil {
 		return nil, fmt.Errorf("erro ao criar requisição: %w", err)
 	}
 
-	// Define headers
+	// Headers based on your curl
 	req.Header.Set("accept", "application/json, text/plain, */*")
-	req.Header.Set("content-type", "application/json;charset=UTF-8")
+	req.Header.Set("accept-language", "pt-BR,pt;q=0.9")
 	req.Header.Set("authorization", "Bearer "+token)
+	req.Header.Set("cache-control", "no-cache")
+	req.Header.Set("content-type", "application/json;charset=UTF-8")
 	req.Header.Set("origin", "https://tiquetaque.app")
+	req.Header.Set("priority", "u=1, i")
 	req.Header.Set("referer", "https://tiquetaque.app/")
-	req.Header.Set("user-agent", "Go-http-client/1.1")
+	req.Header.Set("sec-ch-ua", `"Not;A=Brand";v="99", "Brave";v="139", "Chromium";v="139"`)
+	req.Header.Set("sec-ch-ua-mobile", "?0")
+	req.Header.Set("sec-ch-ua-platform", `"Windows"`)
+	req.Header.Set("sec-fetch-dest", "empty")
+	req.Header.Set("sec-fetch-mode", "cors")
+	req.Header.Set("sec-fetch-site", "cross-site")
+	req.Header.Set("sec-gpc", "1")
+	req.Header.Set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36")
+	req.Header.Set("X-Check", xCheck)
 
-	// Executa requisição
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao enviar requisição: %w", err)
@@ -75,6 +95,9 @@ func DoPunch(ctx context.Context, token, employerID, date, timeStr string) (*Pun
 	}
 
 	if resp.StatusCode != http.StatusOK {
+		if err := saveErrorToFile(respBody); err != nil {
+			return nil, fmt.Errorf("erro ao salvar erro em arquivo: %w", err)
+		}
 		return nil, fmt.Errorf("erro ao registrar ponto: %s", string(respBody))
 	}
 

@@ -8,11 +8,11 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "minha-cli",
-	Short: "Uma CLI de exemplo com Cobra",
-	Long:  `Essa é uma CLI simples feita em Go usando o framework Cobra.`,
+	Use:   "ttq-cli",
+	Short: "CLI para TiqueTaque",
+	Long:  `Essa é uma CLI que facilita o registro de pontos no TiqueTaque.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Bem-vindo à CLI do Evailson 🚀")
+		fmt.Println("Bem-vindo à CLI do TiqueTaque 🚀")
 	},
 }
 
