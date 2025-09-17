@@ -126,7 +126,10 @@ type PunchResponse struct {
 	Message string `json:"message"`
 }
 
-func (c *Client) Punch(ctx context.Context, xCheck, date, timeStr string) (*PunchResponse, error) {
+func (c *Client) Punch(ctx context.Context, token, xCheck, date, timeStr string) (*PunchResponse, error) {
+
+	c.token = token
+
 	body := PunchRequest{
 		Times: []struct {
 			Source string `json:"source"`

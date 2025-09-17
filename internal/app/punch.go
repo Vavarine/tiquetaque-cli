@@ -32,7 +32,7 @@ func DoPunch(ctx context.Context, cli *client.Client) (*client.PunchResponse, er
 	punchTime := now.Format("15:04")
 	xCheck := GetCheck(employeeID, fullName, checkDate, punchTime)
 
-	resp, err := cli.Punch(ctx, xCheck, jsonDate, punchTime)
+	resp, err := cli.Punch(ctx, token, xCheck, jsonDate, punchTime)
 
 	if err != nil {
 		return nil, fmt.Errorf("error when punching: %w", err)
