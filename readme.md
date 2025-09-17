@@ -1,4 +1,4 @@
-# TiqueTaQue CLI
+# TiqueTaque CLI
 
 **ttq-cli** is a command-line interface (CLI) tool written in Go to punch employee time using the TiqueTaque API.  
 The CLI securely saves tokens and user info (keyring or file fallback), allowing multiple executions.
