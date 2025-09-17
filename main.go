@@ -18,7 +18,6 @@ type Release struct {
 
 func checkForUpdateAsync() {
 	go func() {
-		// evita que o programa trave se a API for lenta
 		client := http.Client{Timeout: 2 * time.Second}
 		resp, err := client.Get("https://api.github.com/repos/Vavarine/tiquetaque-cli/releases/latest")
 		if err != nil {
@@ -33,6 +32,7 @@ func checkForUpdateAsync() {
 
 		if r.TagName != version {
 			fmt.Fprintf(os.Stderr, "\n⚠️ Nova versão da cli disponível: %s (atual: %s)\n", r.TagName, version)
+			fmt.Fprintf(os.Stderr, "Atualize com: curl -fsSL https://raw.githubusercontent.com/Vavarine/tiquetaque-cli/main/install.sh | bash \n\n")
 		}
 	}()
 }
