@@ -32,6 +32,8 @@ func DoPunch(ctx context.Context, cli *client.Client) (*client.PunchResponse, er
 	punchTime := now.Format("15:04")
 	xCheck := GetCheck(employeeID, fullName, checkDate, punchTime)
 
+	fmt.Println("Resgistrando ponto às", punchTime, "do dia", jsonDate)
+
 	resp, err := cli.Punch(ctx, token, xCheck, jsonDate, punchTime)
 
 	if err != nil {
