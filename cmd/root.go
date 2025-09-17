@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Short: "CLI para TiqueTaque",
 	Long:  `Essa é uma CLI que facilita o registro de pontos no TiqueTaque.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Bem-vindo à CLI do TiqueTaque 🚀")
+		fmt.Println("Bem-vindo à CLI do TiqueTaque")
 	},
 }
 
