@@ -10,7 +10,7 @@ import (
 	"github.com/vavarine/ttq/cmd"
 )
 
-var version string = "dev"
+var version string = "dev" // set via ldflags in build
 
 type Release struct {
 	TagName string `json:"tag_name"`
