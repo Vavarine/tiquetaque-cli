@@ -24,7 +24,7 @@ func DoLogin(ctx context.Context, cli *client.Client, email, code string) error 
 			return fmt.Errorf("error saving token: %w", err)
 		}
 
-		fullName, err := cli.GetFullName(token)
+		fullName, err := cli.GetFullName()
 
 		if err != nil {
 			return fmt.Errorf("error getting employee info: %w", err)
