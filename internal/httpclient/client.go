@@ -16,7 +16,6 @@ type Client struct {
 	token      string
 }
 
-// Construtor
 func NewClient(baseURL string) *Client {
 	return &Client{
 		httpClient: &http.Client{},
@@ -24,7 +23,6 @@ func NewClient(baseURL string) *Client {
 	}
 }
 
-// cria request com headers padrões
 func (c *Client) newRequest(method, path string, body io.Reader) (*http.Request, error) {
 	req, err := http.NewRequest(method, c.baseURL+path, body)
 	if err != nil {
@@ -39,7 +37,6 @@ func (c *Client) newRequest(method, path string, body io.Reader) (*http.Request,
 	return req, nil
 }
 
-// Login chama a API e retorna token e employeeID
 func (c *Client) Login(email, code string) (string, string, error) {
 	payload := map[string]string{
 		"email":                 email,
@@ -146,7 +143,6 @@ func (c *Client) Punch(ctx context.Context, token, xCheck, date, timeStr string)
 		return nil, err
 	}
 
-	// adiciona header X-Check
 	req.Header.Set("X-Check", xCheck)
 
 	// timeout

@@ -10,27 +10,24 @@ import (
 )
 
 const (
-	service = "ttq"     // nome que aparece no keyring
-	user    = "default" // chave para guardar o token
+	service = "ttq"
+	user    = "default"
 )
 
-// Config usado no fallback de arquivo
 type Config struct {
 	Token        string `json:"token,omitempty"`
 	EmployeeID   string `json:"employee_id,omitempty"`
 	EmployeeName string `json:"employee_name,omitempty"`
 }
 
-// SaveToken tenta salvar no keyring, se falhar salva em ~/.config
 func SaveToken(token string) error {
 	if err := keyring.Set(service, user, token); err == nil {
 		return nil
 	}
-	// fallback para arquivo
+
 	return saveTokenToFile(token)
 }
 
-// LoadToken tenta carregar do keyring, se falhar tenta do arquivo
 func LoadToken() (string, error) {
 	if token, err := keyring.Get(service, user); err == nil {
 		return token, nil
@@ -38,16 +35,14 @@ func LoadToken() (string, error) {
 	return loadTokenFromFile()
 }
 
-// SaveEmployeeID salva o ID do funcionário no keyring ou em um arquivo
 func SaveEmployeeID(employeeID string) error {
 	if err := keyring.Set(service, "employee_id", employeeID); err == nil {
 		return nil
 	}
-	// fallback para arquivo
+
 	return saveEmployeeIDToFile(employeeID)
 }
 
-// LoadEmployeeID tenta carregar o ID do funcionário do keyring, se falhar tenta do arquivo
 func LoadEmployeeID() (string, error) {
 	if employeeID, err := keyring.Get(service, "employee_id"); err == nil {
 		return employeeID, nil
@@ -55,17 +50,14 @@ func LoadEmployeeID() (string, error) {
 	return loadEmployeeIDFromFile()
 }
 
-// ==== fallback em arquivo ~/.config/minhacli/config.json ====
-// Salva o nome do funcionário no keyring ou em um arquivo
 func SaveEmployeeName(employeeName string) error {
 	if err := keyring.Set(service, "employee_name", employeeName); err == nil {
 		return nil
 	}
-	// fallback para arquivo
+
 	return saveEmployeeNameToFile(employeeName)
 }
 
-// Carrega o nome do funcionário do keyring ou do arquivo
 func LoadEmployeeName() (string, error) {
 	if employeeName, err := keyring.Get(service, "employee_name"); err == nil {
 		return employeeName, nil
@@ -101,7 +93,7 @@ func writeConfigToFile(cfg Config) error {
 }
 
 func saveTokenToFile(token string) error {
-	cfg, _ := loadConfigFromFile() // se erro, começa vazio
+	cfg, _ := loadConfigFromFile()
 	cfg.Token = token
 	return writeConfigToFile(cfg)
 }

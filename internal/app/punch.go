@@ -9,7 +9,7 @@ import (
 )
 
 func DoPunch(ctx context.Context, cli *client.Client) (*client.PunchResponse, error) {
-	// Carrega informações salvas
+	// Loads the saved token, employeeID, and fullName from secure storage
 	token, err := LoadToken()
 	if err != nil || token == "" {
 		return nil, fmt.Errorf("token não encontrado. Faça login primeiro")

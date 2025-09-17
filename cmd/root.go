@@ -16,7 +16,6 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-// Função que o main.go chama
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

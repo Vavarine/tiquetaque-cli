@@ -8,9 +8,7 @@ import (
 	client "github.com/vavarine/ttq/internal/httpclient"
 )
 
-// Aqui você pode chamar SaveToken/SaveEmployeeID (keyring/fallback)
 func DoLogin(ctx context.Context, cli *client.Client, email, code string) error {
-	// poderia usar contexto com timeout
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
