@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: |
           mkdir -p dist
-          go build -o dist/ttq .
+          go build -ldflags "-X main.version=$(git describe --tags --abbrev=0)" -o dist/ttq .
 
       - name: Test
         run: go test -v ./...
