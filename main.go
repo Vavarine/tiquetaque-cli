@@ -38,6 +38,7 @@ func checkForUpdateAsync() {
 }
 
 func main() {
+	fmt.Printf("running ttq version %s\n\n", version)
 	checkForUpdateAsync()
 
 	cmd.Execute()
