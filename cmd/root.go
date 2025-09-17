@@ -8,7 +8,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "ttq-cli",
+	Use:   "ttq",
 	Short: "CLI para TiqueTaque",
 	Long:  `Essa é uma CLI que facilita o registro de pontos no TiqueTaque.`,
 	Run: func(cmd *cobra.Command, args []string) {
