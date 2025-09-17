@@ -6,7 +6,7 @@ The CLI securely saves tokens and user info (keyring or file fallback), allowing
 ## Features
 
 - Login via email and SMS code
-- Automatically punch using saved token
+- Punches using saved token
 - Secure storage of token, employeeID, and employee name
 - Optional date and time flags for manual punching
 - Modular and testable structure (Client, App, CMD)
