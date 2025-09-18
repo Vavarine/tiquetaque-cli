@@ -168,3 +168,44 @@ func (c *Client) Punch(ctx context.Context, token, xCheck, date, timeStr string)
 
 	return &punchResp, nil
 }
+
+type DayRecordsResponse struct {
+	Items []struct {
+		Date        string `json:"date"`
+		TimeEntries []struct {
+			Time string `json:"time"`
+		} `json:"time_entries"`
+	} `json:"_items"`
+}
+
+func (c *Client) GetDayRecords(ctx context.Context, token, employeeId string) (*DayRecordsResponse, error) {
+	c.token = token
+
+	req, err := c.newRequest("GET", fmt.Sprintf("/employees/day-records?employee=%s&period=current", employeeId), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// timeout
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+	req = req.WithContext(ctx)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	respBody, _ := io.ReadAll(resp.Body)
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("erro ao obter registros de ponto: %s", string(respBody))
+	}
+
+	var recordsResp DayRecordsResponse
+	if err := json.Unmarshal(respBody, &recordsResp); err != nil {
+		return nil, err
+	}
+
+	return &recordsResp, nil
+}
