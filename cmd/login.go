@@ -15,8 +15,9 @@ var (
 )
 
 var loginCmd = &cobra.Command{
-	Use:   "login",
-	Short: "Faz login no sistema",
+	Use:     "login",
+	Short:   "Faz login no sistema",
+	Aliases: []string{"l"},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		email, _ := cmd.Flags().GetString("email")
 		code, _ := cmd.Flags().GetString("code")

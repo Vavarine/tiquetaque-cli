@@ -22,8 +22,9 @@ To install ttq-cli, use the following command:
 ## Usage
 After installation, you can use the `ttq` command in your terminal. 
 
-- To log in: `ttq login --email <email> --code <sms_code>`
-- To punch: `ttq punch`
+- To log in: `ttq login --email <email> --code <sms_code>` or `ttq l --email <email> --code <sms_code>`
+- To punch: `ttq punch` or `ttq p`
+- To view history: `ttq history` or `ttq h`
 
 Log in is required only once. The token and user info are securely stored for future use.
 

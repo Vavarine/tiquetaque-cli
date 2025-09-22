@@ -11,8 +11,9 @@ import (
 )
 
 var historyCmd = &cobra.Command{
-	Use:   "history",
-	Short: "Exibe o histórico de batidas de pontos",
+	Use:     "history",
+	Short:   "Exibe o histórico de batidas de pontos",
+	Aliases: []string{"h"},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		c := client.NewClient("https://api.tiquetaque.com")
 

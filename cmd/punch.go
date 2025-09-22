@@ -10,8 +10,9 @@ import (
 )
 
 var punchCmd = &cobra.Command{
-	Use:   "punch",
-	Short: "Bate o ponto usando o token salvo",
+	Use:     "punch",
+	Short:   "Bate o ponto usando o token salvo",
+	Aliases: []string{"p"},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		c := client.NewClient("https://api.tiquetaque.com")
 
