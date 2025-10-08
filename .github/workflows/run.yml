@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Instalar ttq-cli
+      - name: Installs ttq-cli
         run: |
           curl -fsSL https://raw.githubusercontent.com/Vavarine/tiquetaque-cli/main/install.sh | bash
 
-      - name: Rodar ttq login
+      - name: Runs ttq l
         run: |
           ttq l --email "${{ secrets.TTQ_EMAIL }}" --code "${{ secrets.TTQ_CODE }}"
 
-      - name: Rodar ttq h
+      - name: Runs ttq p
         run: |
-          ttq h
+          ttq p
