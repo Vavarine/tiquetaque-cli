@@ -2,10 +2,10 @@ name: Run ttq CLI
 
 on:
   schedule:
-    - cron: '56 12 * * *'
-    - cron: '58 14 * * *'
-    - cron: '57 13 * * *'
-    - cron: '06 20 * * *'
+    - cron: '56 12 * * 1-5'
+    - cron: '58 14 * * 1-5'
+    - cron: '57 13 * * 1-5'
+    - cron: '06 20 * * 1-5'
   workflow_dispatch:
 
 jobs:
