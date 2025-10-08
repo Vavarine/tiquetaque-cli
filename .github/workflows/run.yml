@@ -2,7 +2,6 @@ name: Run ttq CLI
 
 on:
   schedule:
-    # Horários UTC (equivalente a 10h, 12h, 13h e 17h de Brasília)
     - cron: "*/5 * * * *"
 
 jobs:
